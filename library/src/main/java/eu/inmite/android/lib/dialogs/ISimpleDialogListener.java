@@ -23,6 +23,6 @@ package eu.inmite.android.lib.dialogs;
  */
 public interface ISimpleDialogListener {
 	public void onPositiveButtonClicked(int requestCode);
-
+    public void onNeutralButtonClicked(int requestCode);
 	public void onNegativeButtonClicked(int requestCode);
 }

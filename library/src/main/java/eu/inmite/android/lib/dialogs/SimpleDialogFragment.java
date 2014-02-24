@@ -38,7 +38,8 @@ public class SimpleDialogFragment extends BaseDialogFragment {
 	protected static String ARG_MESSAGE = "message";
 	protected static String ARG_TITLE = "title";
 	protected static String ARG_POSITIVE_BUTTON = "positive_button";
-	protected static String ARG_NEGATIVE_BUTTON = "negative_button";
+    protected static String ARG_NEGATIVE_BUTTON = "negative_button";
+    protected static String ARG_NEUTRAL_BUTTON = "neutral_button";
 
 	protected int mRequestCode;
 
@@ -75,19 +76,33 @@ public class SimpleDialogFragment extends BaseDialogFragment {
 			builder.setMessage(message);
 		}
 
-		final String positiveButtonText = getPositiveButtonText();
-		if (!TextUtils.isEmpty(positiveButtonText)) {
-			builder.setPositiveButton(positiveButtonText, new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					ISimpleDialogListener listener = getDialogListener();
-					if (listener != null) {
-						listener.onPositiveButtonClicked(mRequestCode);
-					}
-					dismiss();
-				}
-			});
-		}
+        final String positiveButtonText = getPositiveButtonText();
+        if (!TextUtils.isEmpty(positiveButtonText)) {
+            builder.setPositiveButton(positiveButtonText, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ISimpleDialogListener listener = getDialogListener();
+                    if (listener != null) {
+                        listener.onPositiveButtonClicked(mRequestCode);
+                    }
+                    dismiss();
+                }
+            });
+        }
+
+        final String neutralButtonText = getNeutralButtonText();
+        if (!TextUtils.isEmpty(neutralButtonText)) {
+            builder.setNeutralButton(neutralButtonText, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ISimpleDialogListener listener = getDialogListener();
+                    if (listener != null) {
+                        listener.onNeutralButtonClicked(mRequestCode);
+                    }
+                    dismiss();
+                }
+            });
+        }
 
 		final String negativeButtonText = getNegativeButtonText();
 		if (!TextUtils.isEmpty(negativeButtonText)) {
@@ -116,6 +131,10 @@ public class SimpleDialogFragment extends BaseDialogFragment {
 	protected String getPositiveButtonText() {
 		return getArguments().getString(ARG_POSITIVE_BUTTON);
 	}
+
+    protected String getNeutralButtonText() {
+        return getArguments().getString(ARG_NEUTRAL_BUTTON);
+    }
 
 	protected String getNegativeButtonText() {
 		return getArguments().getString(ARG_NEGATIVE_BUTTON);
@@ -164,6 +183,7 @@ public class SimpleDialogFragment extends BaseDialogFragment {
 		private CharSequence mMessage;
 		private String mPositiveButtonText;
 		private String mNegativeButtonText;
+        private String mNeutralButtonText;
 
 		private boolean mShowDefaultButton = true;
 
@@ -206,15 +226,25 @@ public class SimpleDialogFragment extends BaseDialogFragment {
 			return this;
 		}
 
-		public SimpleDialogBuilder setPositiveButtonText(int textResourceId) {
-			mPositiveButtonText = mContext.getString(textResourceId);
-			return this;
-		}
+        public SimpleDialogBuilder setPositiveButtonText(int textResourceId) {
+            mPositiveButtonText = mContext.getString(textResourceId);
+            return this;
+        }
 
-		public SimpleDialogBuilder setPositiveButtonText(String text) {
-			mPositiveButtonText = text;
-			return this;
-		}
+        public SimpleDialogBuilder setPositiveButtonText(String text) {
+            mPositiveButtonText = text;
+            return this;
+        }
+
+        public SimpleDialogBuilder setNeutralButtonText(int textResourceId) {
+            mNeutralButtonText = mContext.getString(textResourceId);
+            return this;
+        }
+
+        public SimpleDialogBuilder setNeutralButtonText(String text) {
+            mNeutralButtonText = text;
+            return this;
+        }
 
 		public SimpleDialogBuilder setNegativeButtonText(int textResourceId) {
 			mNegativeButtonText = mContext.getString(textResourceId);
@@ -237,7 +267,7 @@ public class SimpleDialogFragment extends BaseDialogFragment {
 
 		@Override
 		protected Bundle prepareArguments() {
-			if (mShowDefaultButton && mPositiveButtonText == null && mNegativeButtonText == null) {
+			if (mShowDefaultButton && mPositiveButtonText == null && mNegativeButtonText == null & mNeutralButtonText == null) {
 				mPositiveButtonText = mContext.getString(R.string.dialog_close);
 			}
 
@@ -246,6 +276,7 @@ public class SimpleDialogFragment extends BaseDialogFragment {
 			args.putString(SimpleDialogFragment.ARG_TITLE, mTitle);
 			args.putString(SimpleDialogFragment.ARG_POSITIVE_BUTTON, mPositiveButtonText);
 			args.putString(SimpleDialogFragment.ARG_NEGATIVE_BUTTON, mNegativeButtonText);
+            args.putString(SimpleDialogFragment.ARG_NEUTRAL_BUTTON, mNeutralButtonText);
 
 			return args;
 		}
