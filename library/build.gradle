@@ -1,12 +1,8 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:0.7.+'
-    }
-}
 apply plugin: 'android-library'
+apply plugin: 'android-maven'
+
+group = 'org.dialogs'
+version = '1.0'
 
 repositories {
     mavenCentral()
@@ -14,19 +10,17 @@ repositories {
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.0"
+    buildToolsVersion "19.0.1"
 
     defaultConfig {
         minSdkVersion 7
         targetSdkVersion 19
-        versionName project.VERSION_NAME
-        versionCode Integer.parseInt(project.VERSION_CODE)
+
+        versionCode 1
+        versionName version
     }
 }
 
 dependencies {
     compile 'com.android.support:support-v4:+'
 }
-
-// Used to push in maven
-apply from: '../maven_push.gradle'
