@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	style="@style/SDL.Group">
 	<TextView
+        android:gravity="center_vertical"
 		android:id="@+id/sdl__title"
 		style="?attr/sdlTitleTextStyle"/>
 
